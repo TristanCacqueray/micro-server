@@ -1,0 +1,7 @@
+- hosts: micro-server
+  tasks:
+    - name: Cwd pod content
+      command: ls -lap
+
+    - name: Run micro-server
+      command: micro-server
