@@ -1,0 +1,6 @@
+- hosts: pod
+  tasks:
+    - name: Test project
+      command: python3 micro/server/cmd.py
+      args:
+        chdir: "{{ zuul.project.src_dir }}"

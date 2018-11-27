@@ -1,0 +1,54 @@
+- job:
+    name: micro-test-dib
+    run: playbooks/dib.yaml
+    nodeset:
+      nodes:
+        - name: test-runner
+          label: dib-centos-7
+
+- job:
+    name: micro-test-openshift-native
+    parent: base-openshift-native
+    run: playbooks/native.yaml
+    vars:
+      base_image: "python:3.6"
+    nodeset:
+      nodes:
+        - name: project
+          label: openshift-project
+
+- job:
+    name: micro-test-openshift-pod
+    parent: base-openshift-pod
+    run: playbooks/pod.yaml
+    nodeset:
+      nodes:
+        - name: pod
+          label: openshift-pod-fedora
+
+- job:
+    name: micro-test-unprivileged-pod
+    parent: base-openshift-pod
+    run: playbooks/pod.yaml
+    nodeset:
+      nodes:
+        - name: pod
+          label: openshift-pod
+
+- project:
+    check:
+      jobs:
+        - linters
+        - micro-test-openshift-native
+        - micro-test-openshift-pod
+        - micro-test-unprivileged-pod
+        - tox:
+            vars:
+              tox_envlist: python
+        - micro-test-dib
+    gate:
+      jobs:
+        - tox:
+            vars:
+              tox_envlist: python
+        - micro-test-unprivileged-pod
