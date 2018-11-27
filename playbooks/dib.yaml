@@ -1,0 +1,10 @@
+- hosts: test-runner
+  tasks:
+    - name: Install micro-server
+      command: python setup.py install
+      become: yes
+      args:
+        chdir: "{{ zuul.project.src_dir }}"
+
+    - name: Run micro-server
+      command: micro-server
