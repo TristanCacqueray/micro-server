@@ -2,7 +2,7 @@
 
 
 def run():
-    print("Micro server running")
+    print("Micro server started")
 
 
 if __name__ == "__main__":
