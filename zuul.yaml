@@ -1,0 +1,21 @@
+- job:
+    name: micro-test-dib
+    run: playbooks/dib.yaml
+    nodeset:
+      nodes:
+        - name: test-runner
+          label: dib-centos-7
+
+- project:
+    check:
+      jobs:
+        - tox:
+            vars:
+              tox_environment: python
+        - micro-test-dib
+    gate:
+      jobs:
+        - tox:
+            vars:
+              tox_environment: python
+        - micro-test-dib
