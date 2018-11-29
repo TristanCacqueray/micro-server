@@ -41,11 +41,9 @@
         - linters
         - micro-test-openshift-native
         - micro-test-openshift-pod
-        - micro-test-unprivileged-pod
         - tox:
             vars:
               tox_envlist: python
-        - micro-test-dib
     gate:
       jobs:
         - tox:
